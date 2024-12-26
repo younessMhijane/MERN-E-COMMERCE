@@ -1,0 +1,28 @@
+# Node.js (back-end)
+backend/node_modules/
+backend/npm-debug.log*
+
+# Environment variables (back-end)
+backend/.env
+
+# Node.js (front-end)
+frontend/node_modules/
+frontend/npm-debug.log*
+
+# Environment variables (front-end)
+frontend/.env
+
+# Build directories
+build/
+dist/
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# System files
+.DS_Store
