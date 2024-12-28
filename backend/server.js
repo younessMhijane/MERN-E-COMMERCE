@@ -3,10 +3,15 @@ import { PORT,mongoDBURL } from './config.js';
 import express from 'express';
 import userRoutes from './routes/userRoutes.js'
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 
 
 const app = express();
+app.use(cors({
+    origin: 'http://localhost:3000', // Autorise seulement cette origine
+    credentials: true, // Autorise l'envoi de cookies si nécessaire
+}));
 
 app.use(cookieParser());
 

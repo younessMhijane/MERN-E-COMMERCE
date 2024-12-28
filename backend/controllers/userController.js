@@ -3,52 +3,67 @@ import User from '../models/userModels.js'
 import bcrypt from 'bcryptjs';
 import createToken from '../utils/createToken.js'
 
-const createUser = asyncHandler(async (req,res)=>{
-    const { username , email , password } = req.body;
-    if(!username || !email || !password){
-        throw new Error("Please fill all the inputs.")
+const createUser = asyncHandler(async (req, res) => {
+    
+    const { username, email, password,confirmPassword } = req.body;
+
+    if (!username || !email || !password) {
+        res.status(400).json({ message: "Please fill all the inputs." });
+        return;
     }
-    const userExists = await User.findOne({email})
-    if(userExists) res.status(400).send("User already exists");
-    
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(password,salt) ;
-    
-    const newUser = new User({username,email,password:hashedPassword});
+    if (confirmPassword !== password) {
+        res.status(400).json({ message: "Passwords do not match." });
+        return;
+    }
+
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+        res.status(400).json({ message: "User already exists" });
+        return;
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = new User({ username, email, password: hashedPassword });
     try {
-        await newUser.save()
-        createToken(res,newUser._id)
+        await newUser.save();
         res.status(201).json({
             _id: newUser._id,
-            username:newUser.username,
+            username: newUser.username,
             email: newUser.email,
-        isAdmin:newUser.isAdmin})
+            isAdmin: newUser.isAdmin,
+        });
     } catch (error) {
-        res.status(400)
-        throw new Error("Invalid user data")
+        res.status(400).json({ message: "Invalid user data" });
     }
 });
-
-const loginUser = asyncHandler(async(req,res)=>{
-    const {email, password}=req.body;
-    if(!email || !password){
-        throw new Error("Please fill all the inputs.")
+const loginUser = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+  
+    if (!email || !password) {
+      return res.status(400).json({ message: "Please fill all the inputs." });
     }
-    const existingUser =await  User.findOne({email})
-    if(existingUser){
-        const isPasswordValid = await bcrypt.compare(password,existingUser.password);
-        if(isPasswordValid){
-            createToken(res,existingUser._id)
-
-            res.status(200).json({
-                _id: existingUser._id,
-                username:existingUser.username,
-                email: existingUser.email,
-            isAdmin:existingUser.isAdmin});
-            return ;
-        }
-    }else throw new Error("Password or email Invalid.")
-})
+  
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) {
+      return res.status(401).json({ message: "Invalid email or password." });
+    }
+  
+    const isPasswordValid = await bcrypt.compare(password, existingUser.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: "Invalid email or password." });
+    }
+  
+    createToken(res, existingUser._id);
+  
+    res.status(200).json({
+      _id: existingUser._id,
+      username: existingUser.username,
+      email: existingUser.email,
+      isAdmin: existingUser.isAdmin,
+    });
+  });
 const logoutUser = asyncHandler(async(req,res)=>{
     res.cookie('jwt','',{
         httpOnly: true,
@@ -56,10 +71,33 @@ const logoutUser = asyncHandler(async(req,res)=>{
     })
     res.status(200).json({message: "Logged out successfully"});
 })
-const getAllUser= asyncHandler(async(req,res)=>{
-    const users= await User.find({})
-    res.json(users);
-})
+
+const getAllUsers = asyncHandler(async (req, res) => {
+    try {
+      const users = await User.find({});
+  
+      // Vérifiez si la liste des utilisateurs est vide
+      if (!users || users.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: 'Aucun utilisateur trouvé.',
+        });
+      }
+  
+      res.status(200).json({
+        success: true,
+        count: users.length,
+        data: users,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Erreur lors de la récupération des utilisateurs.',
+        error: error.message,
+      });
+    }
+  });
+  
 const getUserProfil=asyncHandler(async(req,res)=>{
     const user = await User.findById(req.user._id)
     if(user){
@@ -117,4 +155,4 @@ const getUserById = asyncHandler(async(req,res)=>{
         res.json(user)
     }else{res.status(404); throw new Error("User not found")}
 }) 
-export {createUser,loginUser,logoutUser,getAllUser,getUserProfil,updateUserProfil,deleteUserById,getUserById}
+export {createUser,loginUser,logoutUser,getAllUsers,getUserProfil,updateUserProfil,deleteUserById,getUserById}
