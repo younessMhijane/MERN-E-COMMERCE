@@ -11,6 +11,7 @@ frontend/npm-debug.log*
 
 # Environment variables (front-end)
 frontend/.env
+.env
 
 # Build directories
 build/
