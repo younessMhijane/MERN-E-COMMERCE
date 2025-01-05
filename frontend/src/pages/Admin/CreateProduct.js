@@ -33,7 +33,7 @@ const ProductList = () => {
         toast.error("Product create failed. Try Again.");
       } else {
         toast.success(`${data.name} is created`);
-        navigate("/allproductslist");
+        navigate("/admin/allproductslist");
       }
     } catch (error) {
       console.error(error);
@@ -56,8 +56,8 @@ const ProductList = () => {
   };
 
   return (
-<div className="container xl:mx-[9rem] sm:mx-0 p-4">
-  <div className="flex flex-col md:flex-row">
+<div className="container mx-auto px-4 xl:px-36 lg:px-20 md:px-10 sm:px-4 p-4">
+<div className="flex flex-col md:flex-row">
     <div className="md:w-3/4 p-4 bg-gray-800 rounded-lg shadow-lg">
 
       
