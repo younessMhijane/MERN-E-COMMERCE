@@ -1,5 +1,7 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import Product from "../models/product.js";
+import fs from "fs";
+import path from "path";
 
 const addProduct = asyncHandler(async(req,res)=>{
     try{
@@ -16,7 +18,6 @@ const addProduct = asyncHandler(async(req,res)=>{
         res.status(400).json(error.message)
     }
 });
-
 const getAllProducts = asyncHandler(async(req,res)=>{
     try {
         const products = await Product.find({})
@@ -35,12 +36,8 @@ const getProductById = asyncHandler(async(req,res)=>{
         res.status(500).json({error: "Server Error"})
     }
 });
-import fs from "fs";
-import path from "path";
-
 // Utilisation de __dirname pour obtenir le chemin absolu du répertoire actuel
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
-
 const removeProduct = asyncHandler(async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -92,8 +89,6 @@ const removeProduct = asyncHandler(async (req, res) => {
     }
   }
 });
-
-
 const updateProduct = asyncHandler(async (req, res) => {
     try {
       const { name, price, description } = req.fields;
