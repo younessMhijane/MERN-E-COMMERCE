@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import { useDeleteUserMutation, useGetUsersQuery, useUpdateUserMutation } from "../../Redux/api/usersApiSlice";
 import { toast } from "react-toastify";
-
+import Loading from "../../components/Loading";
 const UserList = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
   const [deleteUser] = useDeleteUserMutation();
@@ -47,14 +47,14 @@ const UserList = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loading/>;
   if (error) return <p>Error: {error?.data?.message || error.error}</p>;
 
   return (
     <div className="sm:p-4 p-2">
       <h1 className="sm:text-2xl font-semibold sm:mb-4 text-xl mb-2">Users</h1>
-      <table className="w-full bg-gray-100 text-sm sm:text-base">
-        <thead className="border-black border">
+      <table className=" w-full text-sm sm:text-base">
+        <thead className="border-black bg-gray-200 border">
           <tr>
             <th className="border-black border">ID</th>
             <th className="border-black border">NAME</th>
