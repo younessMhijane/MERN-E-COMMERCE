@@ -21,6 +21,9 @@ import UserList from "./pages/Admin/UserList";
 import AllProducts from "./pages/Admin/AllProducts";
 import CreateProduct from "./pages/Admin/CreateProduct";
 import UpdateProduct from "./pages/Admin/UpdateProduct.js";
+
+import Product from "./pages/Products/Product.js";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -30,6 +33,7 @@ const router = createBrowserRouter(
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />
       </Route>
+      <Route path="/Products" element={<Product />} />
 
       <Route path="/admin" element={<AdminRoute />} >
         <Route path="userlist" element={<UserList />} />

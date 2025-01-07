@@ -46,68 +46,68 @@ const Profile = () => {
   return (
     <div className="container mx-auto p-4 mt-5">
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="text-2xl font-semibold mb-10">Update Profile</h2>
-          <form onSubmit={submitHandler}>
-            <div className="mb-4">
-              <label className="block text-black mb-2">Name</label>
-              <input
-                type="text"
-                placeholder="Enter name"
-                className="block w-full rounded-md bg-white px-3 py-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                value={username}
-                onChange={(e) => setUserName(e.target.value)}
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-black mb-2">Email Address</label>
-              <input
-                type="email"
-                placeholder="Enter email"
-                className="block w-full rounded-md bg-white px-3 py-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-black mb-2">Password</label>
-              <input
-                type="password"
-                autoComplete="valide-password"
-                placeholder="Enter password"
-                className="block w-full rounded-md bg-white px-3 py-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-black mb-2">Confirm Password</label>
-              <input
-                type="password"
-                autoComplete="valide-password"
-                placeholder="Confirm password"
-                className="block w-full rounded-md bg-white px-3 py-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-            </div>
-
-            <div className="flex justify-between">
-              <button
-                type="submit"
-                className="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-              >
-                {loadingUpdateProfile? 'Updating..':'Update'}
-              </button>
-
-
-            </div>
-          </form>
+        <h2 className="text-2xl font-semibold mb-10">Update Profile</h2>
+        <form onSubmit={submitHandler}>
+          <div className="mb-4">
+            <label className="block text-black mb-2">Name</label>
+            <input
+              type="text"
+              placeholder="Enter name"
+              className="block w-full rounded-md bg-white px-3 py-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+              value={username}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+          </div>
+  
+          <div className="mb-4">
+            <label className="block text-black mb-2">Email Address</label>
+            <input
+              type="email"
+              placeholder="Enter email"
+              className="block w-full rounded-md bg-white px-3 py-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+  
+          <div className="mb-4">
+            <label className="block text-black mb-2">Password</label>
+            <input
+              type="password"
+              autoComplete="new-password"
+              placeholder="Enter password"
+              className="block w-full rounded-md bg-white px-3 py-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+  
+          <div className="mb-4">
+            <label className="block text-black mb-2">Confirm Password</label>
+            <input
+              type="password"
+              autoComplete="new-password"
+              placeholder="Confirm password"
+              className="block w-full rounded-md bg-white px-3 py-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </div>
+  
+          <div className="flex justify-between items-center mt-6">
+            <button
+              type="submit"
+              className="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 transition duration-200"
+              disabled={loadingUpdateProfile}
+            >
+              {loadingUpdateProfile ? 'Updating...' : 'Update'}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
+  
 };
 
 export default Profile;

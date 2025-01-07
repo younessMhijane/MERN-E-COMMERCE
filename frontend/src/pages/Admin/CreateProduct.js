@@ -30,14 +30,14 @@ const ProductList = () => {
       const { data } = await createProduct(productData);
 
       if (data.error) {
-        toast.error("Product create failed. Try Again.");
+        toast.error("Product creation failed. Try Again.");
       } else {
-        toast.success(`${data.name} is created`);
+        toast.success(`${data.name} has been created successfully!`);
         navigate("/admin/allproductslist");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Product create failed. Try Again.");
+      toast.error("Product creation failed. Try Again.");
     }
   };
 
@@ -56,95 +56,107 @@ const ProductList = () => {
   };
 
   return (
-<div className="container mx-auto px-4 xl:px-36 lg:px-20 md:px-10 sm:px-4 p-4">
-<div className="flex flex-col md:flex-row">
-    <div className="md:w-3/4 p-4 bg-gray-800 rounded-lg shadow-lg">
+    <div className="container mx-auto px-6 py-8">
+      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">Create Product</h2>
 
-      
-      <h2 className="text-2xl font-bold text-white mb-6">Create Product</h2>
-    <div className="sm:flex gap-5">
-
-        <div className="space-y-6">
-            <div className="flex flex-wrap gap-6">
-
-            <div className="w-full">
-                <label htmlFor="name" className="block text-gray-300 mb-2">Name</label>
-                <input
+        <form onSubmit={handleSubmit}>
+          {/* Product Details */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-gray-700 font-medium mb-2"
+              >
+                Name
+              </label>
+              <input
+                id="name"
                 type="text"
-                className="p-4 w-full border rounded-lg bg-gray-900 text-white"
+                className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter product name"
-                />
-            </div>
-
-            <div className="w-full">
-                <label htmlFor="price" className="block text-gray-300 mb-2">Price</label>
-                <input
-                type="number"
-                className="p-4 w-full border rounded-lg bg-gray-900 text-white"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                placeholder="Enter product price"
-                />
-            </div>
+              />
             </div>
 
             <div>
-            <label htmlFor="description" className="block text-gray-300 mb-2">Description</label>
-            <textarea
-                className="p-4 w-full bg-gray-900 border rounded-lg text-white"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Enter product description"
-                rows="5"
-            ></textarea>
+              <label
+                htmlFor="price"
+                className="block text-gray-700 font-medium mb-2"
+              >
+                Price
+              </label>
+              <input
+                id="price"
+                type="number"
+                min="0" step="0.01"
+                className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="Enter product price"
+              />
             </div>
-        </div>
-        <div className={imageUrl ?"":"sm:w-1/2"}>
-        {imageUrl && (
-            <div className="text-center mb-6">
-            <img
-                src={imageUrl}
-                alt="product"
-                className="block mx-auto max-h-[400px] rounded-lg shadow"
-            />
-            </div>
-        )}
+          </div>
 
-        <div className="mb-6 ">
-            <label 
-            className={image? 
-                "h-[50px] border border-dashed border-gray-500 py-3 bg-gray-700 text-white block w-full text-center rounded-lg cursor-pointer font-bold"
-                :
-                "sm:h-[200px] flex items-center justify-center border border-dashed border-gray-500 py-3 bg-gray-700 text-white block w-full text-center rounded-lg cursor-pointer font-bold"
-            }>
-            {image ? "Another Image ?" : "Upload Image"}
-            <input
+          <div className="mt-6">
+            <label
+              htmlFor="description"
+              className="block text-gray-700 font-medium mb-2"
+            >
+              Description
+            </label>
+            <textarea
+              id="description"
+              className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Enter product description"
+              rows="5"
+            ></textarea>
+          </div>
+
+          {/* Image Upload */}
+          <div className="mt-6">
+            {imageUrl && (
+              <div className="text-center mb-6">
+                <img
+                  src={imageUrl}
+                  alt="Uploaded Product"
+                  className="mx-auto rounded-lg shadow-md max-h-48"
+                />
+              </div>
+            )}
+
+            <label
+              htmlFor="image"
+              className="block w-full cursor-pointer border-2 border-dashed border-gray-300 bg-gray-50 text-gray-600 py-6 text-center rounded-lg hover:bg-gray-100 transition"
+            >
+              <span>
+                {image ? "Upload Another Image" : "Click to Upload Image"}
+              </span>
+              <input
+                id="image"
                 type="file"
-                name="image"
                 accept="image/*"
                 onChange={uploadFileHandler}
                 className="hidden"
-            />
+              />
             </label>
-        </div>
-        </div>
+          </div>
 
-    </div>
-
-      <div className="mt-6">
-        <button
-          onClick={handleSubmit}
-          className="w-full py-4 text-lg font-bold rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
-        >
-          Submit
-        </button>
+          {/* Submit Button */}
+          <div className="mt-8">
+            <button
+              type="submit"
+              className="w-full py-3 bg-blue-600 text-white font-bold text-lg rounded-lg shadow-md hover:bg-blue-700 transition"
+            >
+              Submit Product
+            </button>
+          </div>
+        </form>
       </div>
     </div>
-  </div>
-</div>
-
   );
 };
 

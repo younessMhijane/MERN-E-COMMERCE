@@ -75,70 +75,84 @@ const handleSubmit = async (e) => {
   if (isProductLoading) return <Loading/>;
 
   return (
-<div className="container mx-auto px-4 xl:px-36 lg:px-20 md:px-10 sm:px-4 p-6">
-<div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-white mb-6">Update / Delete Product</h2>
+<div className="container mx-auto p-6 sm:p-4 md:px-10 lg:px-20 xl:px-36">
+  <div className="bg-gray-900 p-6 rounded-lg shadow-lg">
+    <h2 className="text-3xl font-bold text-white mb-8 text-center">
+      Update / Delete Product
+    </h2>
 
-        {/* Image Preview */}
-        {image && (
-          <div className="text-center mb-6">
-            <img src={image} alt="product" className="max-h-[200px] mx-auto rounded-lg" />
-          </div>
-        )}
+    {/* Image Preview */}
+    {image && (
+      <div className="text-center mb-8">
+        <img
+          src={image}
+          alt="product"
+          className="max-h-[200px] mx-auto rounded-lg shadow-md"
+        />
+      </div>
+    )}
 
-        {/* Product Details */}
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="name" className="block text-gray-300 mb-2">Name</label>
-            <input
-              type="text"
-              id="name"
-              className="w-full p-3 rounded-lg bg-gray-900 text-white border"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
+    {/* Product Details */}
+    <div className="space-y-6">
+      <div>
+        <label htmlFor="name" className="block text-gray-400 mb-2">
+          Product Name
+        </label>
+        <input
+          type="text"
+          id="name"
+          className="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring focus:ring-blue-500 focus:outline-none"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
 
-          <div>
-            <label htmlFor="price" className="block text-gray-300 mb-2">Price</label>
-            <input
-              type="number"
-              id="price"
-              className="w-full p-3 rounded-lg bg-gray-900 text-white border"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-            />
-          </div>
+      <div>
+        <label htmlFor="price" className="block text-gray-400 mb-2">
+          Price ($)
+        </label>
+        <input
+          type="number"
+          id="price"
+          min="0" step="0.01"
+          className="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring focus:ring-blue-500 focus:outline-none"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+        />
+      </div>
 
-          <div>
-            <label htmlFor="description" className="block text-gray-300 mb-2">Description</label>
-            <textarea
-              id="description"
-              className="w-full p-3 rounded-lg bg-gray-900 text-white border"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows="4"
-            />
-          </div>
-        </div>
-
-        {/* Buttons */}
-        <div className="flex gap-4 mt-6">
-          <button
-            onClick={handleSubmit}
-            className="w-full py-3 rounded-lg text-lg font-bold bg-green-600 text-white hover:bg-green-700 transition"
-          >
-            Update
-          </button>
-          <button
-            onClick={handleDelete}
-            className="w-full py-3 rounded-lg text-lg font-bold bg-red-600 text-white hover:bg-red-700 transition"
-          >
-            Delete
-          </button>
-        </div>
+      <div>
+        <label htmlFor="description" className="block text-gray-400 mb-2">
+          Description
+        </label>
+        <textarea
+          id="description"
+          className="w-full p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:ring focus:ring-blue-500 focus:outline-none"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          rows="4"
+        />
       </div>
     </div>
+
+    {/* Buttons */}
+    <div className="flex flex-col sm:flex-row gap-4 mt-8">
+      <button
+        onClick={handleSubmit}
+        className="w-full sm:w-auto flex-grow py-3 rounded-lg text-lg font-semibold bg-green-600 text-white hover:bg-green-700 transition"
+      >
+        Update
+      </button>
+      <button
+        onClick={handleDelete}
+        className="w-full sm:w-auto flex-grow py-3 rounded-lg text-lg font-semibold bg-red-600 text-white hover:bg-red-700 transition"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
+
   );
 };
 
