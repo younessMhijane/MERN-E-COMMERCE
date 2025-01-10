@@ -8,7 +8,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FaRegUser } from "react-icons/fa";
 import { MdLogin } from "react-icons/md";
 import { IoCreateSharp } from "react-icons/io5";
-
+import logo from '../asserts/logo.png'
 export default function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,8 +34,11 @@ export default function Header() {
   return (
     <>
       {/* Navigation Desktop */}
-      <header className="hidden md:flex justify-between items-center p-3 px-8 border-b border-gray-300">
-        <div className="text-2xl font-bold hover:cursor-pointer">Logo</div>
+      <header className="hidden md:flex justify-between items-center px-8 border-b border-gray-300">
+        <div className="flex font-bold hover:cursor-pointer">
+          <img src={logo} className='h-[60px] p-2 rounded-full ' alt='LaReine'/>
+          <h1 className='m-auto font-tan-mon-cheri text-base'>La Reine</h1>
+        </div>
 
         <nav className="flex gap-10">
           <Link to="/" className="text-black no-underline hover:font-bold hover:text-blue-500 transition-all duration-300">Home</Link>
@@ -79,8 +82,11 @@ export default function Header() {
 
       {/* Navigation Mobile */}
       <div className="md:hidden bg-gray-300">
-        <header className="flex justify-between items-center p-3">
-          <div className="text-2xl font-bold">Logo</div>
+        <header className="flex justify-between items-center px-3 py-1">
+        <div className="flex font-bold hover:cursor-pointer gap-2">
+          <img src={logo} className='h-[40px]  rounded-full ' alt='LaReine'/>
+          <h1 className='m-auto font-tan-mon-cheri text-base'>La Reine</h1>
+        </div>
           <button className="text-black px-4" onClick={toggleMenu}>
             <FontAwesomeIcon icon={faBars} />
           </button>

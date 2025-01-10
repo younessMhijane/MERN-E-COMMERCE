@@ -1,15 +1,19 @@
-import React from 'react'
-import UserList from './UserList'
-import AllProducts from './AllProducts'
-import { Link } from 'react-router-dom'
-import { useAllProductsQuery } from '../../Redux/api/productApiSlice'
-import Loading from '../../components/Loading'
-import { useGetUsersQuery } from '../../Redux/api/usersApiSlice'
+import React from 'react';
+import UserList from './UserList';
+import AllProducts from './AllProducts';
+import OrdersManager from './OrdersManager'; // Importer la gestion des commandes
+import { Link } from 'react-router-dom';
+import { useAllProductsQuery } from '../../Redux/api/productApiSlice';
+import Loading from '../../components/Loading';
+import { useGetUsersQuery } from '../../Redux/api/usersApiSlice';
+import { useGetOrdersQuery } from "../../Redux/api/orderApiSlice";
+
 export default function AdminDashboard() {
   const { isLoading: isProductsLoading } = useAllProductsQuery();
   const { isLoading: isUsersLoading } = useGetUsersQuery();
+  const { isLoading: isOrderLoading } = useGetOrdersQuery();
 
-  if (isProductsLoading || isUsersLoading) {
+  if (isProductsLoading || isUsersLoading || isOrderLoading) {
     return <Loading />;
   }
 
@@ -47,6 +51,24 @@ export default function AdminDashboard() {
             className="inline-block px-6 py-2 rounded-full text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300"
           >
             Show All Products
+          </Link>
+        </div>
+      </div>
+
+      {/* Orders List Section */}
+      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="p-4 border-b bg-gray-50">
+          <h2 className="text-lg font-semibold text-gray-800">Orders List</h2>
+        </div>
+        <div className="max-h-96 overflow-y-auto">
+          <OrdersManager /> {/* Intégration de la gestion des commandes */}
+        </div>
+        <div className="text-center py-3 bg-gray-50">
+          <Link
+            to="/admin/orderlist"
+            className="inline-block px-6 py-2 rounded-full text-blue-500 border border-blue-500 hover:bg-blue-500 hover:text-white transition-all duration-300"
+          >
+            Show All Orders
           </Link>
         </div>
       </div>

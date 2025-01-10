@@ -1,3 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@font-face {
+    font-family: 'Tan Mon Cheri';
+    src: url('./asserts/fonts/TanMonCheri.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+  

@@ -2,14 +2,25 @@ import React from "react";
 import { useAllProductsQuery } from "../../Redux/api/productApiSlice";
 import { FaCartPlus } from "react-icons/fa";
 import Loading from "../../components/Loading";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../Redux/features/cart/cartSlice";
+import { toast } from "react-toastify";
+
 const Product = () => {
+  const dispatch = useDispatch();
+
+  const addToCartHandler = (product) => {
+    dispatch(addToCart({ ...product, qty: 1 }));
+    toast.success(`${product.name} has been added to your cart!`, {
+      position: "top-right",
+      autoClose: 3000,
+    });
+  };
 
   // Récupérer tous les produits via RTK Query
   const { data: products, isLoading, isError, error } = useAllProductsQuery();
 
-
-
-  if (isLoading) return <Loading/>;
+  if (isLoading) return <Loading />;
   if (isError) return <p>Error: {error?.data?.message || "Failed to load products"}</p>;
 
   return (
@@ -29,6 +40,7 @@ const Product = () => {
           <div className="flex justify-between items-center mt-4">
             <span className="text-indigo-600 font-bold">${product.price}</span>
             <button
+              onClick={() => addToCartHandler(product)}
               className="flex items-center gap-2 bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 transition duration-200"
             >
               <FaCartPlus className="h-5 w-5" />

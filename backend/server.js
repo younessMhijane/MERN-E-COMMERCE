@@ -8,6 +8,7 @@ import { PORT,mongoDBURL } from './config.js';
 import userRoutes from './routes/userRoutes.js'
 import productRoutes from './routes/productRoutes.js'
 import uploadRoutes from "./routes/uploadRoutes.js";
+import orderRoutes from "./routes/CartRoutes.js";
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.use('/api/products', productRoutes);
 app.use("/api/upload", uploadRoutes);
 const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname + "/uploads")));
-
+app.use("/api/orders", orderRoutes);
 
 mongoose.connect(mongoDBURL)
 .then(()=>{
