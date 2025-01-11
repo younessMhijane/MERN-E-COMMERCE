@@ -51,7 +51,7 @@ const UserList = () => {
   if (error) return <p>Error: {error?.data?.message || error.error}</p>;
 
   return (
-<div className="container mx-auto p-4 sm:p-6">
+<div className="container mx-auto p-4 sm:p-6 overflow-y-auto">
   <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">User Management</h1>
 
   <table className="w-full border-collapse bg-white rounded-lg shadow-lg overflow-hidden">
@@ -65,88 +65,105 @@ const UserList = () => {
       </tr>
     </thead>
     <tbody>
-      {users.map((user, index) => (
-        <tr
-          key={user._id}
-          className={`${
-            index % 2 === 0 ? "bg-gray-50" : "bg-gray-100"
-          } hover:bg-gray-200`}
-        >
-          <td className="p-3 text-gray-700 truncate">{user._id}</td>
-          <td className="p-3">
-            {editableUserId === user._id ? (
-              <input
-                type="text"
-                className="w-full p-2 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                value={editableUserData.username}
-                onChange={(e) =>
-                  setEditableUserData({
-                    ...editableUserData,
-                    username: e.target.value,
-                  })
-                }
-              />
-            ) : (
-              <span className="text-gray-700">{user.username}</span>
-            )}
-          </td>
-          <td className="p-3">
-            {editableUserId === user._id ? (
-              <input
-                type="email"
-                className="w-full p-2 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                value={editableUserData.email}
-                onChange={(e) =>
-                  setEditableUserData({
-                    ...editableUserData,
-                    email: e.target.value,
-                  })
-                }
-              />
-            ) : (
-              <span className="text-gray-700">{user.email}</span>
-            )}
-          </td>
-          <td className="p-3 text-center">
-            {user.isAdmin ? (
-              <FaCheck className="text-green-500 mx-auto" />
-            ) : (
-              <FaTimes className="text-red-500 mx-auto" />
-            )}
-          </td>
-          <td className="p-3 text-center">
-            <div className="flex justify-center gap-4">
-              {editableUserId === user._id ? (
-                <button
-                  onClick={updateHandler}
-                  className="text-blue-500 hover:text-blue-700 transition"
-                  aria-label="Save"
-                >
-                  <FaCheck />
-                </button>
-              ) : (
-                <button
-                  onClick={() => toggleEdit(user)}
-                  className="text-green-500 hover:text-green-700 transition"
-                  aria-label="Edit"
-                >
-                  <FaEdit />
-                </button>
-              )}
-              {!user.isAdmin && (
-                <button
-                  onClick={() => deleteHandler(user._id)}
-                  className="text-red-600 hover:text-red-800 transition"
-                  aria-label="Delete"
-                >
-                  <FaTrash />
-                </button>
-              )}
-            </div>
-          </td>
-        </tr>
-      ))}
-    </tbody>
+  {users.map((user, index) => (
+    <tr
+      key={user?._id || index}
+      className={`${
+        index % 2 === 0 ? "bg-gray-50" : "bg-gray-100"
+      } hover:bg-gray-200`}
+    >
+      <td className="p-3 text-gray-700 truncate">{user._id}</td>
+      <td className="p-3">
+        {editableUserId === user._id ? (
+          <input
+            type="text"
+            className="w-full p-2 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            value={editableUserData.username}
+            onChange={(e) =>
+              setEditableUserData({
+                ...editableUserData,
+                username: e.target.value,
+              })
+            }
+            aria-label={`Edit username for ${user.username}`}
+          />
+        ) : (
+          <span className="text-gray-700">{user.username}</span>
+        )}
+      </td>
+      <td className="p-3">
+        {editableUserId === user._id ? (
+          <input
+            type="email"
+            className="w-full p-2 border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            value={editableUserData.email}
+            onChange={(e) =>
+              setEditableUserData({
+                ...editableUserData,
+                email: e.target.value,
+              })
+            }
+            aria-label={`Edit email for ${user.email}`}
+          />
+        ) : (
+          <span className="text-gray-700">{user.email}</span>
+        )}
+      </td>
+      <td className="p-3 text-center">
+        {user.isAdmin ? (
+          <FaCheck className="text-green-500 mx-auto" />
+        ) : (
+          <FaTimes className="text-red-500 mx-auto" />
+        )}
+      </td>
+      <td className="p-3 text-center">
+        <div className="flex justify-center gap-4">
+          {editableUserId === user._id ? (
+            <>
+              <button
+                onClick={updateHandler}
+                disabled={!editableUserData.username || !editableUserData.email}
+                className={`text-blue-500 hover:text-blue-700 transition ${
+                  !editableUserData.username || !editableUserData.email
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
+                }`}
+                aria-label="Save changes"
+              >
+                <FaCheck />
+              </button>
+              <button
+                onClick={() => setEditableUserId(null)}
+                className="text-gray-500 hover:text-gray-700 transition"
+                aria-label="Cancel changes"
+              >
+                <FaTimes />
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() => toggleEdit(user)}
+              className="text-green-500 hover:text-green-700 transition"
+              aria-label="Edit user"
+            >
+              <FaEdit />
+            </button>
+          )}
+          {!user.isAdmin && (
+            <button
+              onClick={() => deleteHandler(user._id)}
+              className="text-red-600 hover:text-red-800 transition"
+              aria-label="Delete user"
+            >
+              <FaTrash />
+            </button>
+          )}
+        </div>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
   </table>
 </div>
 

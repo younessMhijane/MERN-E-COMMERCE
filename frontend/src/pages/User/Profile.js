@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 
 import { useProfileMutation } from "../../Redux/api/usersApiSlice";
 import { setCredentials } from "../../Redux/features/auth/authSlice";
+import { FaUserCircle } from "react-icons/fa";
 
 const Profile = () => {
   const [username, setUserName] = useState("");
@@ -13,8 +14,7 @@ const Profile = () => {
 
   const { userInfo } = useSelector((state) => state.auth);
 
-  const [updateProfile, { isLoading: loadingUpdateProfile }] =
-    useProfileMutation();
+  const [updateProfile, { isLoading: loadingUpdateProfile }] =useProfileMutation();
 
   useEffect(() => {
     setUserName(userInfo.username);
@@ -44,70 +44,86 @@ const Profile = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 mt-5">
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="text-2xl font-semibold mb-10">Update Profile</h2>
-        <form onSubmit={submitHandler}>
-          <div className="mb-4">
-            <label className="block text-black mb-2">Name</label>
+    <div className="container mx-auto p-6 mt-10">
+      <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        {/* Header */}
+        <div className="bg-indigo-600 text-white text-center p-6">
+          <FaUserCircle className="text-6xl mx-auto mb-4" />
+          <h2 className="text-2xl font-bold">{username || "Your Name"}</h2>
+          <p className="text-sm">{email || "Email not set"}</p>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={submitHandler} className="p-6 space-y-6">
+          {/* Username */}
+          <div>
+            <label className="block text-gray-700 mb-2">Name</label>
             <input
               type="text"
-              placeholder="Enter name"
-              className="block w-full rounded-md bg-white px-3 py-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+              placeholder="Enter your name"
+              className="block w-full rounded-md bg-gray-100 px-4 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
               value={username}
               onChange={(e) => setUserName(e.target.value)}
             />
           </div>
-  
-          <div className="mb-4">
-            <label className="block text-black mb-2">Email Address</label>
+
+          {/* Email */}
+          <div>
+            <label className="block text-gray-700 mb-2">Email Address</label>
             <input
               type="email"
-              placeholder="Enter email"
-              className="block w-full rounded-md bg-white px-3 py-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+              placeholder="Enter your email"
+              className="block w-full rounded-md bg-gray-100 px-4 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-  
-          <div className="mb-4">
-            <label className="block text-black mb-2">Password</label>
+
+          {/* Password */}
+          <div>
+            <label className="block text-gray-700 mb-2">New Password</label>
             <input
               type="password"
-              autoComplete="new-password"
-              placeholder="Enter password"
-              className="block w-full rounded-md bg-white px-3 py-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+              placeholder="Enter new password"
+              className="block w-full rounded-md bg-gray-100 px-4 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-  
-          <div className="mb-4">
-            <label className="block text-black mb-2">Confirm Password</label>
+
+          {/* Confirm Password */}
+          <div>
+            <label className="block text-gray-700 mb-2">Confirm Password</label>
             <input
               type="password"
-              autoComplete="new-password"
-              placeholder="Confirm password"
-              className="block w-full rounded-md bg-white px-3 py-3 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+              placeholder="Confirm new password"
+              className="block w-full rounded-md bg-gray-100 px-4 py-2 text-gray-800 outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
-  
-          <div className="flex justify-between items-center mt-6">
+
+          {/* Buttons */}
+          <div className="flex justify-between items-center">
             <button
               type="submit"
-              className="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 transition duration-200"
+              className="bg-indigo-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-indigo-700 transition duration-300"
               disabled={loadingUpdateProfile}
             >
-              {loadingUpdateProfile ? 'Updating...' : 'Update'}
+              {loadingUpdateProfile ? "Updating..." : "Update"}
+            </button>
+            <button
+              type="button"
+              className="text-indigo-600 border border-indigo-600 py-2 px-4 rounded-lg shadow-md hover:bg-indigo-100 transition duration-300"
+              onClick={() => toast.info("Feature coming soon!")}
+            >
+              Change Avatar
             </button>
           </div>
         </form>
       </div>
     </div>
   );
-  
 };
 
 export default Profile;

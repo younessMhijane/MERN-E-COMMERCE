@@ -1,23 +1,21 @@
-import React, { useState,useEffect } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../../Redux/api/usersApiSlice";
 import { setCredentials } from "../../Redux/features/auth/authSlice";
 import { toast } from "react-toastify";
+import logo from "../../asserts/logo.png";
 
 export default function PageRegister() {
-
-
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [register, { isLoading }] = useRegisterMutation();
-
   const { userInfo } = useSelector((state) => state.auth);
 
   const { search } = useLocation();
@@ -32,125 +30,131 @@ export default function PageRegister() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
-    } else {
-      try {
-        const res = await register({ username, email, password }).unwrap();
-        dispatch(setCredentials({ ...res }));
-        navigate(redirect);
-        toast.success("User successfully registered");
-      } catch (err) {
-        console.log(err);
-        toast.error(err.data.message);
-      }
-    }};
+      return;
+    }
 
+    try {
+      const res = await register({ username, email, password }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      toast.success("Registration successful!");
+      navigate(redirect);
+    } catch (err) {
+      toast.error(err?.data?.message || "Failed to register. Try again.");
+    }
+  };
 
   return (
-    <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            alt="Your Company"
-            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-            className="mx-auto h-10 w-auto"
-          />
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-          Registration your account
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-6 py-12">
+      {/* Registration Card */}
+      <div className="w-full max-w-md space-y-6 bg-white shadow-lg rounded-lg p-6">
+        {/* Logo and Heading */}
+        <div className="text-center">
+          <img src={logo} alt="LaReine" className="mx-auto h-20 w-auto" />
+          <h2 className="mt-6 text-2xl font-bold text-gray-900">
+            Create an Account
           </h2>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={handleRegister} action="#" method="POST" className="space-y-6">
-            <div>
-              <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">
-                Username
-              </label>
-              <div className="mt-2">
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                  autoComplete="username"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  autoComplete="email"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
+        {/* Registration Form */}
+        <form onSubmit={handleRegister} className="space-y-6">
+          {/* Username */}
+          <div>
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              Username
+            </label>
+            <input
+              id="username"
+              name="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              autoComplete="username"
+              placeholder="Enter your username"
+              className="mt-2 w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
 
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
-                  Password
-                </label>
+          {/* Email */}
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email Address
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+              placeholder="Enter your email"
+              className="mt-2 w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
 
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  autoComplete="current-password"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="ConfirmPassword" className="block text-sm/6 font-medium text-gray-900">
-                ConfirmPassword
-                </label>
+          {/* Password */}
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              Password
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="new-password"
+              placeholder="Enter your password"
+              className="mt-2 w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
 
-              </div>
-              <div className="mt-2">
-                <input
-                  id="ConfirmPassword"
-                  name="ConfirmPassword"
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  autoComplete="current-password"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
+          {/* Confirm Password */}
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+              Confirm Password
+            </label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              autoComplete="new-password"
+              placeholder="Confirm your password"
+              className="mt-2 w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
 
-            <div>
-              <button
-                disabled={isLoading}
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                {isLoading ? "Registering..." : "Register"}
-              </button>
-            </div>
-          </form>
-        </div>
+          {/* Submit Button */}
+          <div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full flex justify-center rounded-md bg-indigo-600 px-4 py-2 text-white font-semibold shadow-md hover:bg-indigo-500 focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 transition duration-200"
+            >
+              {isLoading ? "Registering..." : "Register"}
+            </button>
+          </div>
+        </form>
+
+        {/* Footer */}
+        <p className="text-sm text-center text-gray-500">
+          Already have an account?{" "}
+          <a
+            href={`/login?redirect=${redirect}`}
+            className="text-indigo-600 hover:underline"
+          >
+            Sign in
+          </a>
+        </p>
       </div>
-    </>
-  )
+    </div>
+  );
 }

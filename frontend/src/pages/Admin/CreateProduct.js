@@ -57,7 +57,7 @@ const ProductList = () => {
 
   return (
     <div className="container mx-auto px-6 py-8">
-      <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-8">
+      <div className="max-w-4xl mx-auto bg-violet-200 shadow-md rounded-lg p-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Create Product</h2>
 
         <form onSubmit={handleSubmit}>
@@ -73,7 +73,7 @@ const ProductList = () => {
               <input
                 id="name"
                 type="text"
-                className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full p-3 bg-violet-50 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter product name"
@@ -91,7 +91,7 @@ const ProductList = () => {
                 id="price"
                 type="number"
                 min="0" step="0.01"
-                className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full p-3 bg-violet-50 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 placeholder="Enter product price"
@@ -108,7 +108,7 @@ const ProductList = () => {
             </label>
             <textarea
               id="description"
-              className="w-full p-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full p-3 bg-violet-50 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter product description"

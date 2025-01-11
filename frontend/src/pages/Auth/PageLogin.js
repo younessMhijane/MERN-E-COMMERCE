@@ -4,118 +4,126 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../../Redux/api/usersApiSlice";
 import { setCredentials } from "../../Redux/features/auth/authSlice";
 import { toast } from "react-toastify";
+import logo from "../../asserts/logo.png";
 
 export default function PageLogin() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [login, { isLoading }] = useLoginMutation();
 
   const { userInfo } = useSelector((state) => state.auth);
-
   const { search } = useLocation();
   const sp = new URLSearchParams(search);
   const redirect = sp.get("redirect") || "/";
 
-  // Gérer la connexion
-  const handleLogin = async(e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
-      console.log(res);
       dispatch(setCredentials({ ...res }));
+      toast.success("Login successful!");
       navigate(redirect);
     } catch (err) {
-      toast.error(err?.data?.message || err.error);
+      toast.error(err?.data?.message || "Invalid email or password.");
     }
   };
-  
+
   useEffect(() => {
     if (userInfo) {
       navigate(redirect);
     }
   }, [navigate, redirect, userInfo]);
 
-  
-
   return (
-    <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-6 py-12">
+      {/* Card */}
+      <div className="w-full max-w-md space-y-6 bg-white shadow-lg rounded-lg p-6">
+        {/* Logo and Heading */}
+        <div className="text-center">
           <img
-            alt="Your Company"
-            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-            className="mx-auto h-10 w-auto"
+            src={logo}
+            alt="LaReine"
+            className="mx-auto h-20 w-auto"
           />
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+          <h2 className="mt-6 text-2xl font-bold text-gray-900">
             Sign in to your account
           </h2>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form onSubmit={handleLogin} action="#" method="POST" className="space-y-6">
-            <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">
-                Email address
+        {/* Login Form */}
+        <form onSubmit={handleLogin} className="space-y-6">
+          {/* Email Input */}
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email Address
+            </label>
+            <input
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+              placeholder="Enter your email"
+              className="mt-2 w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+
+          {/* Password Input */}
+          <div>
+            <div className="flex items-center justify-between">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                Password
               </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  autoComplete="email"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
+              <div className="text-sm flex gap-2">
+                <a href="/#" className="text-indigo-600 hover:text-indigo-500">
+                  Forgot password?
+                </a>
+                <span>or</span>
+                <Link to="/register" className="text-indigo-600 hover:text-indigo-500">
+                  Create Account
+                </Link>
               </div>
             </div>
+            <input
+              name="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
+              placeholder="Enter your password"
+              className="mt-2 w-full rounded-md border border-gray-300 px-4 py-2 text-gray-900 placeholder-gray-400 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
 
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">
-                  Password
-                </label>
-                <div className="text-sm flex gap-2">
-                  <a href="/#" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Forgot password?
-                  </a>
-                  or
-                  <Link to="/register" className="font-semibold text-indigo-600 hover:text-indigo-500">
-                    Create Account ?
-                  </Link>
-                </div>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  autoComplete="current-password"
-                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                />
-              </div>
-            </div>
+          {/* Submit Button */}
+          <div>
+            <button
+              type="submit"
+              className="w-full flex justify-center rounded-md bg-indigo-600 px-4 py-2 text-white font-semibold shadow-md hover:bg-indigo-500 transition duration-200 focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2"
+              disabled={isLoading}
+            >
+              {isLoading ? "Signing In..." : "Sign In"}
+            </button>
+          </div>
+        </form>
 
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                {isLoading ? "Signing In..." : "Sign In"}
-              </button>
-            </div>
-            {/* {error && <p className="flex w-full justify-center rounded-md bg-red-400 px-3 py-2 text-sm/6 font-semibold text-white shadow-sm hover:bg-red-500  ">{error}</p>} */}
-          </form>
-        </div>
+        
+        {/* <p className="text-sm text-center text-gray-500">
+          By signing in, you agree to our{" "}
+          <Link to="/terms" className="text-indigo-600 hover:underline">
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link to="/privacy" className="text-indigo-600 hover:underline">
+            Privacy Policy
+          </Link>.
+        </p> */}
       </div>
-    </>
+    </div>
   );
 }

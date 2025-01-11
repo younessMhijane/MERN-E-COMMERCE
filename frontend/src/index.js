@@ -8,6 +8,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 
 import Home from "./pages/PageHome";
+import Contact from "./pages/Contact";
 import PageNotFound from "./pages/PageNotFound.js";
 import Login from "./pages/Auth/PageLogin.js";
 import Register from "./pages/Auth/PageRegister.js";
@@ -24,7 +25,7 @@ import CreateProduct from "./pages/Admin/CreateProduct";
 import UpdateProduct from "./pages/Admin/UpdateProduct.js";
 
 import Product from "./pages/Products/Product.js";
-import Cart from "./pages/Cart.js";
+import Cart from "./pages/User/Cart.js";
 import CartItem from "./components/CartItem.js";
 import OrderConfirmation from "./components/OrderConfirmation.js";
 const router = createBrowserRouter(
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route index={true} path="/" element={<Home />} />
+      <Route path="/Contact" element={<Contact />} />
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />
       </Route>
