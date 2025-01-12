@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useCreateOrderMutation } from "../Redux/api/orderApiSlice";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Import react-toastify styles
-
+import "react-toastify/dist/ReactToastify.css";
+import OrderConfirmation from './OrderConfirmation'
 const CartItem = () => {
   const { id: productId } = useParams();
   const navigate = useNavigate();
@@ -13,6 +13,7 @@ const CartItem = () => {
   const product = cartItems.find((item) => item._id === productId);
 
   const [quantity, setQuantity] = useState(1);
+  const [isConfirm, setIsConfirm] = useState(false);
   const [shippingInfo, setShippingInfo] = useState({
     address: "",
     city: "",
@@ -55,19 +56,26 @@ const CartItem = () => {
         position: "top-right",
         autoClose: 3000,
       });
-      navigate("/order-confirmation");
+      setIsConfirm(true)
+      
     } catch (err) {
       toast.error(`Error creating order: ${err.message || "Unknown error"}`, {
         position: "top-right",
         autoClose: 5000,
       });
+      setIsConfirm(false)
+      
     }
   };
 
   if (!product) return <div>Product not found.</div>;
 
-  return (
-    <div className=" p-6 sm:p-4 md:px-10 lg:px-20 xl:px-36 bg-gradient-to-r from-violet-300 via-violet-200 to-violet-100">
+  return (<>
+
+    {isConfirm ?
+      <OrderConfirmation/>
+      :
+         <div className=" p-6 sm:p-4 md:px-10 lg:px-20 xl:px-36 bg-gradient-to-r from-violet-300 via-violet-200 to-violet-100">
       {/* Toast Container */}
       <ToastContainer />
 
@@ -175,7 +183,8 @@ const CartItem = () => {
         </button>
       </div>
     </div>
-  );
+    }
+  </>);
 };
 
 export default CartItem;

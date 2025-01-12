@@ -4,6 +4,7 @@ import Loading from "./Loading";
 import { addToCart } from "../Redux/features/cart/cartSlice";
 import { useSelector,useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 const ProductCart = () => {
   const { id } = useParams(); // Récupère l'ID du produit depuis l'URL
  
@@ -49,6 +50,7 @@ const ProductCart = () => {
 
   return (
     <div className="container mx-auto p-6 md:mt-10 sm:p-4 md:px-10 lg:px-20 xl:px-36">
+      <ToastContainer/>
       <div className="bg-white p-6 rounded-lg shadow-lg">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="flex-shrink-0">

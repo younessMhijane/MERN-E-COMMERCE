@@ -29,6 +29,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
         method: "PUT",
         body: data,
       }),
+      invalidatesTags: ["User"],
     }),
     getUsers: builder.query({
       query: () => ({

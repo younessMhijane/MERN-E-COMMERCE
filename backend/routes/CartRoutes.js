@@ -16,7 +16,7 @@ router
   .post(authenticate, createOrder)
   .get(authenticate, authorizeAdmin, getAllOrders);
 
-  router.route("/orders/:id/status").put(authenticate, authorizeAdmin, updateStatus);
+  router.route("/:id/status").put(authenticate, authorizeAdmin, updateStatus);
 
 router.route("/mine").get(authenticate, getUserOrders);
 router.route("/total-orders").get(authenticate, countTotalOrders); // Ajout de la route pour le total

@@ -34,7 +34,6 @@ const OrdersManager = () => {
         autoClose: 3000,
       });
     } catch (err) {
-      console.error("Error updating status:", err);
       toast.error(`Error updating status: ${err.message || "Unknown error"}`, {
         position: "top-right",
         autoClose: 5000,
@@ -57,6 +56,7 @@ const OrdersManager = () => {
           <tr className="bg-gray-200">
             <th className="border border-gray-300 p-2">Order ID</th>
             <th className="border border-gray-300 p-2">Customer Name</th>
+            <th className="border border-gray-300 p-2">Product</th>
             <th className="border border-gray-300 p-2">Shipping Address</th>
             <th className="border border-gray-300 p-2">Total Price</th>
             <th className="border border-gray-300 p-2">Status</th>
@@ -67,22 +67,31 @@ const OrdersManager = () => {
           {orders.map((order,i) => (
             <tr key={order._id} className="text-center">
               <td className="border border-gray-300 p-2 cursor-pointe">
-                {order.orderItems.map((item) => (
                 <div key={order._id}>
-                  <Link
-                    to={`/products/${item.product}`}
-                    className="font-bold "
-                  >
-                    {i}
-                  </Link>
+                    <b>{i}</b>
                 </div>
-                ))}                
               </td>
-                      <td className="border border-gray-300 p-2">{order.user?.username || "Unknown"}</td>
+              <td className="border border-gray-300 p-2">{order.user?.username || "Unknown"}</td>
+              <td className="border border-gray-300">
+              {order.orderItems.map((item) => (
+              <div key={item._id} className="flex justify-center bg-violet-50">
+                <Link to={`/products/${item.product}`}>
+                  <img 
+                    src={item.image} 
+                    alt={``}
+                    className=" h-20 " 
+                  />
+                </Link>
+              </div>
+            ))}
+
+              </td>
               <td className="border border-gray-300 p-2">
-                {order.shippingAddress.address}, {order.shippingAddress.city}, {order.shippingAddress.postalCode}, {order.shippingAddress.phone}
+                {order.shippingAddress.address},<br/>
+                {order.shippingAddress.city}, {order.shippingAddress.postalCode},<br/>
+                {order.shippingAddress.phone}
               </td>
-              <td className="border border-gray-300 p-2">${order.totalPrice.toFixed(2)}</td>
+              <td className="border border-gray-300 p-2">{order.totalPrice.toFixed(2)} DH</td>
               <td className="border border-gray-300 p-2">
                 <select
                   value={selectedStatuses[order._id]}

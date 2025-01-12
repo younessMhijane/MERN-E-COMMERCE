@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import { useDeleteUserMutation, useGetUsersQuery, useUpdateUserMutation } from "../../Redux/api/usersApiSlice";
-import { toast } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 import Loading from "../../components/Loading";
 const UserList = () => {
   const { data: users, refetch, isLoading, error } = useGetUsersQuery();
@@ -16,24 +16,48 @@ const UserList = () => {
     setEditableUserData({ username: user.username, email: user.email });
   }, []);
 
-  const updateHandler = async () => {
+const updateHandler = async () => {
+  if (!editableUserData.username) {
+    toast.error("Username cannot be empty");
+    return;
+  }
+
+  // Préparez l'objet de données à envoyer
+  const updateData = {
+    userId: editableUserId,
+    username: editableUserData.username,
+  };
+
+  // Si l'email a changé (comparaison avec l'email initial), ajoutez-le dans les données de mise à jour
+  if (editableUserData.email !== users.find(user => user._id === editableUserId).email) {
     if (!editableUserData.email.includes("@")) {
       toast.error("Invalid email address");
       return;
     }
-    try {
-      await updateUser({
-        userId: editableUserId,
-        username: editableUserData.username,
-        email: editableUserData.email,
-      }).unwrap();
-      setEditableUserId(null);
-      refetch();
-      toast.success("User updated successfully!");
-    } catch (err) {
-      toast.error(err?.data?.message || err.error);
+    updateData.email = editableUserData.email;
+  }
+
+  try {
+    await updateUser(updateData).unwrap();
+    setEditableUserId(null);
+    refetch();
+    toast.success("User updated successfully!");
+  } catch (err) {
+    if (err?.data?.message === "Email is already in use by another user.") {
+      toast.error("This email address is already used by another user.");
+    } else {
+      toast.error(err?.data?.message || err.error || "An error occurred");
     }
+  }
+};
+
+  
+  
+  const cancelEdit = () => {
+    setEditableUserId(null);
+    setEditableUserData({ username: "", email: "" });
   };
+  
 
   const deleteHandler = async (id) => {
     if (window.confirm("Are you sure?")) {
@@ -52,6 +76,7 @@ const UserList = () => {
 
   return (
 <div className="container mx-auto p-4 sm:p-6 overflow-y-auto">
+  <ToastContainer/>
   <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">User Management</h1>
 
   <table className="w-full border-collapse bg-white rounded-lg shadow-lg overflow-hidden">
@@ -133,12 +158,13 @@ const UserList = () => {
                 <FaCheck />
               </button>
               <button
-                onClick={() => setEditableUserId(null)}
+                onClick={cancelEdit}
                 className="text-gray-500 hover:text-gray-700 transition"
                 aria-label="Cancel changes"
               >
                 <FaTimes />
               </button>
+
             </>
           ) : (
             <button

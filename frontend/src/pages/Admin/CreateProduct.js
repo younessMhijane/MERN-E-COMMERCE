@@ -5,7 +5,7 @@ import {
   useUploadProductImageMutation,
 } from "../../Redux/api/productApiSlice";
 import { toast } from "react-toastify";
-
+import { ToastContainer } from "react-toastify";
 const ProductList = () => {
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
@@ -33,7 +33,7 @@ const ProductList = () => {
         toast.error("Product creation failed. Try Again.");
       } else {
         toast.success(`${data.name} has been created successfully!`);
-        navigate("/admin/allproductslist");
+        navigate("/admin/dashboard");
       }
     } catch (error) {
       console.error(error);
@@ -57,6 +57,7 @@ const ProductList = () => {
 
   return (
     <div className="container mx-auto px-6 py-8">
+      <ToastContainer/>
       <div className="max-w-4xl mx-auto bg-violet-200 shadow-md rounded-lg p-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">Create Product</h2>
 

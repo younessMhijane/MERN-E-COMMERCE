@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../../Redux/api/usersApiSlice";
 import { setCredentials } from "../../Redux/features/auth/authSlice";
-import { toast } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 import logo from "../../asserts/logo.png";
 
 export default function PageLogin() {
@@ -39,7 +39,7 @@ export default function PageLogin() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-6 py-12">
-      {/* Card */}
+      <ToastContainer/>
       <div className="w-full max-w-md space-y-6 bg-white shadow-lg rounded-lg p-6">
         {/* Logo and Heading */}
         <div className="text-center">

@@ -5,7 +5,7 @@ import {
   useDeleteProductMutation,
   useGetProductByIdQuery,
 } from "../../Redux/api/productApiSlice";
-import { toast } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 import Loading from "../../components/Loading";
 
 const UpdateProduct = () => {
@@ -44,7 +44,7 @@ const UpdateProduct = () => {
       formData.append("image", image);
 
       await updateProduct({ productId, formData }).unwrap();
-      navigate("/admin/allproductslist");
+      navigate("/admin/dashboard");
       toast.success("Product updated successfully!", { autoClose: 2000 });
     } catch (err) {
       console.error(err);
@@ -61,7 +61,7 @@ const UpdateProduct = () => {
       const response = await deleteProduct(productId).unwrap();
       console.log("Delete response:", response); // Vérifiez la réponse de l'API
       toast.success("Product deleted successfully!", { autoClose: 2000 });
-      navigate("/admin/allproductslist");
+      navigate("/admin/dashboard");
     } catch (err) {
       console.error("Delete error:", err);
       toast.error("Product deletion failed. Try again.", { autoClose: 2000 });
@@ -72,6 +72,7 @@ const UpdateProduct = () => {
 
   return (
     <div className="container mx-auto p-6 sm:p-4 md:px-10 lg:px-20 xl:px-36">
+      <ToastContainer/>
       <div className="bg-gradient-to-r from-blue-700 to-purple-800 p-6 rounded-lg shadow-lg">
 
         <h2 className="text-3xl font-bold text-white mb-8 text-center">Update / Delete Product</h2>

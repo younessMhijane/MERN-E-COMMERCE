@@ -36,7 +36,7 @@ export default function AdminDashboard() {
       <div className='flex justify-end'>
         <div
           className={`bg-violet-800 flex justify-center items-center h-8 w-8 rounded-full transition-all duration-300 shadow-lg cursor-pointer hover:bg-violet-700 ${
-            isDropdownOpen ? 'rotate-45' : ''}`}
+            isDropdownOpen ? 'rotate-[225deg]' : ''}`}
         >
           <FaPlus className="h-6 w-6 text-white" />
         </div>

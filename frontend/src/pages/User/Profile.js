@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 
 import { useProfileMutation } from "../../Redux/api/usersApiSlice";
 import { setCredentials } from "../../Redux/features/auth/authSlice";
@@ -46,7 +46,7 @@ const Profile = () => {
   return (
     <div className="p-6 pt-10 bg-gradient-to-r from-violet-300 via-violet-200 to-violet-100">
       <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-        {/* Header */}
+        <ToastContainer/>
         <div className="bg-indigo-600 text-white text-center p-6">
           <FaUserCircle className="text-6xl mx-auto mb-4" />
           <h2 className="text-2xl font-bold">{username || "Your Name"}</h2>

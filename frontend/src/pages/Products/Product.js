@@ -4,7 +4,7 @@ import { FaCartPlus } from "react-icons/fa";
 import Loading from "../../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../Redux/features/cart/cartSlice";
-import { toast } from "react-toastify";
+import { toast,ToastContainer } from "react-toastify";
 import moment from "moment";
 import { Link } from "react-router-dom";
 const Product = () => {
@@ -34,6 +34,7 @@ const Product = () => {
 
   return (
     <div className="p-5 md:p-10">
+      <ToastContainer/>
       <h2 className="text-2xl md:pb-5 font-semibold text-indigo-700">All Products</h2>
       <div className="container mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
