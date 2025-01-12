@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../../Redux/api/usersApiSlice";
 import { setCredentials } from "../../Redux/features/auth/authSlice";
 import { toast } from "react-toastify";
@@ -147,12 +147,12 @@ export default function PageRegister() {
         {/* Footer */}
         <p className="text-sm text-center text-gray-500">
           Already have an account?{" "}
-          <a
-            href={`/login?redirect=${redirect}`}
+          <Link
+            to={`/login?redirect=${redirect}`}
             className="text-indigo-600 hover:underline"
           >
             Sign in
-          </a>
+          </Link>
         </p>
       </div>
     </div>

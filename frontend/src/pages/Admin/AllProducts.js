@@ -42,7 +42,7 @@ const AllProducts = () => {
         {products.map((product) => (
           <Link
             key={product._id}
-            to={`/admin/product/${product._id}`}
+            to={`/products/${product._id}`}
             className="block bg-violet-50 shadow-lg rounded-lg hover:shadow-xl transition"
           >
             <div className="p-4">

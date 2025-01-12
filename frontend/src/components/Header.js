@@ -42,13 +42,19 @@ export default function Header() {
   return (
     <>
       {/* Navigation Desktop */}
-      <header className="md:pt-5 bg-gradient-to-r from-violet-500 via-violet-400 to-violet-300">
+      <header className="md:py-5 bg-gradient-to-r from-violet-500 via-violet-400 to-violet-300">
         
       <div className="hidden md:flex justify-between items-center px-8">
-        <Link to='/' className="flex font-bold hover:cursor-pointer gap-2">
-          <img src={logo} className='h-[60px] p-2 rounded-full ' alt='LaReine'/>
-          <h1 className='m-auto font-tan-mon-cheri text-base text-violet-950'>La Reine</h1>
-        </Link>
+      <Link to='/' className="flex items-center font-bold hover:cursor-pointer gap-3">
+        <img
+          src={logo}
+          className="h-[40px] w-[40px] rounded-full border-2 border-white"
+          alt="La Reine Logo"
+        />
+        <h1 className="text-white font-tan-mon-cheri text-xl tracking-wider">
+          La Reine
+        </h1>
+      </Link>
 
         <nav className="flex gap-10 text-white">
           <Link to="/" className=" no-underline hover:font-bold hover:text-violet-800 transition-all duration-300">Home</Link>

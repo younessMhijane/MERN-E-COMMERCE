@@ -44,7 +44,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 mt-10">
+    <div className="p-6 pt-10 bg-gradient-to-r from-violet-300 via-violet-200 to-violet-100">
       <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         {/* Header */}
         <div className="bg-indigo-600 text-white text-center p-6">

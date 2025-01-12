@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart, clearCartItems } from "../../Redux/features/cart/cartSlice";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
+import { useAllProductsQuery } from "../../Redux/api/productApiSlice";
+import Loading from "../../components/Loading";
 
 const Cart = () => {
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
+
+  const { data: products = [], isLoading, isError } = useAllProductsQuery();
+
+  // Remove cart items not in the product list
+  useEffect(() => {
+    if (!isLoading && !isError) {
+      const availableProductIds = new Set(products.map((product) => product._id));
+      cartItems.forEach((item) => {
+        if (!availableProductIds.has(item._id)) {
+          dispatch(removeFromCart(item._id));
+        }
+      });
+    }
+  }, [products, cartItems, isLoading, isError, dispatch]);
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
@@ -20,13 +36,24 @@ const Cart = () => {
     return cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
   };
 
+  if (isLoading) {
+    return <Loading/>;
+  }
+
+  if (isError) {
+    return <p>Error loading products. Please try again later.</p>;
+  }
+
   return (
     <div className="container mx-auto p-4">
       {cartItems.length === 0 ? (
         <div className="flex flex-col items-center justify-center text-center text-gray-500 h-screen">
           <FaShoppingCart className="h-24 w-24 text-indigo-400" />
           <p className="text-lg font-semibold mt-4">Your cart is empty!</p>
-          <Link to="/products" className="mt-6 bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 transition-all">
+          <Link
+            to="/products"
+            className="mt-6 bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600 transition-all"
+          >
             Go Shopping
           </Link>
         </div>
@@ -48,8 +75,12 @@ const Cart = () => {
                 />
                 <div className="flex-1 ml-4">
                   <h3 className="font-semibold text-gray-800">{item.name}</h3>
-                  <p className="text-gray-600">Price: <span className="font-medium text-indigo-600">{item.price} DH</span></p>
-                  <p className="text-gray-600">Quantity: <span className="font-medium">{item.qty}</span></p>
+                  <p className="text-gray-600">
+                    Price: <span className="font-medium text-indigo-600">{item.price} DH</span>
+                  </p>
+                  <p className="text-gray-600">
+                    Quantity: <span className="font-medium">{item.qty}</span>
+                  </p>
                 </div>
                 <div className="flex gap-2">
                   <Link

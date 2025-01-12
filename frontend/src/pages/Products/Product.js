@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../Redux/features/cart/cartSlice";
 import { toast } from "react-toastify";
 import moment from "moment";
-
+import { Link } from "react-router-dom";
 const Product = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -27,7 +27,6 @@ const Product = () => {
     });
   };
 
-  // Récupérer tous les produits via RTK Query
   const { data: products, isLoading, isError, error } = useAllProductsQuery();
 
   if (isLoading) return <Loading />;
@@ -49,11 +48,12 @@ const Product = () => {
             onMouseLeave={() => setHoveredProduct(null)}
           >
             <div className="relative overflow-hidden rounded-md">
+              <Link  to={`/products/${product._id}`}>
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-80 object-cover transform transition-transform duration-300 group-hover:scale-110"
-              />
+                className="w-full hover:cursor-pointer h-80 object-cover transform transition-transform duration-300 group-hover:scale-110"
+              /></Link>
               <button
                 onClick={() => addToCartHandler(product)}
                 className="absolute top-2 right-2 bg-indigo-500 text-white p-2 rounded-full shadow-md transform transition-transform duration-300 hover:scale-110 hover:shadow-lg"

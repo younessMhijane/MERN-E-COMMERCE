@@ -25,6 +25,7 @@ import CreateProduct from "./pages/Admin/CreateProduct";
 import UpdateProduct from "./pages/Admin/UpdateProduct.js";
 
 import Product from "./pages/Products/Product.js";
+import ProductCart from "./components/ProductCard";
 import Cart from "./pages/User/Cart.js";
 import CartItem from "./components/CartItem.js";
 import OrderConfirmation from "./components/OrderConfirmation.js";
@@ -38,10 +39,12 @@ const router = createBrowserRouter(
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />
       </Route>
-      <Route path="/Products" element={<Product />} />
+      <Route path="/products" element={<Product />} />
+      <Route path="/products/:id" element={<ProductCart />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/cart/:id" element={<CartItem />} />
       <Route path="/order-confirmation" element={<OrderConfirmation />} />
+      
       <Route path="/admin" element={<AdminRoute />} >
         <Route path="userlist" element={<UserList />} />
         <Route path="dashboard" element={<AdminDashboard />} />

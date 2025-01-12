@@ -3,9 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useCreateOrderMutation } from "../Redux/api/orderApiSlice";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // Importer les styles de react-toastify
+import "react-toastify/dist/ReactToastify.css"; // Import react-toastify styles
 
-const SingleProductOrder = () => {
+const CartItem = () => {
   const { id: productId } = useParams();
   const navigate = useNavigate();
 
@@ -67,84 +67,84 @@ const SingleProductOrder = () => {
   if (!product) return <div>Product not found.</div>;
 
   return (
-    <div className="container mx-auto p-4">
+    <div className=" p-6 sm:p-4 md:px-10 lg:px-20 xl:px-36 bg-gradient-to-r from-violet-300 via-violet-200 to-violet-100">
       {/* Toast Container */}
       <ToastContainer />
 
-      {/* Affichage des détails du produit */}
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-semibold">Order Product</h2>
+      {/* Product Details */}
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-semibold text-gray-900">Order Product</h2>
       </div>
-      <div className="flex justify-between items-center bg-white shadow-md rounded-lg p-4">
+      <div className="flex justify-between bg-violet-50 items-center bg-white shadow-md rounded-lg p-4">
         <img
           src={product.image}
           alt={product.name}
-          className="w-16 h-16 object-cover rounded-md"
+          className="w-24 h-24 object-cover rounded-md"
         />
         <div className="flex-1 ml-4">
-          <h3 className="font-semibold">{product.name}</h3>
-          <p className="text-gray-600">Price: ${product.price}</p>
+          <h3 className="font-semibold text-lg text-gray-800">{product.name}</h3>
+          <p className="text-gray-600">Price: {product.price} DH</p>
           <div className="flex items-center gap-2">
-            <label>Qty:</label>
+            <label className="text-gray-700">Quantity:</label>
             <input
               type="number"
               min="1"
               value={quantity}
               onChange={(e) => setQuantity(Number(e.target.value))}
-              className="border p-1 rounded"
+              className="border bg-gray-50 p-2 rounded focus:ring-2 focus:ring-indigo-500"
             />
           </div>
         </div>
       </div>
 
-      {/* Formulaire pour les informations de livraison */}
-      <div className="mt-6">
-        <h3 className="text-xl font-semibold mb-4">Shipping Information</h3>
+      {/* Shipping Information Form */}
+      <div className="mt-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Shipping Information</h3>
         <form>
-          <div className="mb-4">
-            <label className="block">Address</label>
+          <div className="mb-6">
+            <label className="block text-gray-700">Address</label>
             <input
               type="text"
               name="address"
               value={shippingInfo.address}
               onChange={handleShippingChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border bg-violet-50 rounded-lg focus:ring-2 focus:ring-indigo-500"
               placeholder="Enter your address"
               required
             />
           </div>
-          <div className="mb-4">
-            <label className="block">City</label>
+          <div className="mb-6">
+            <label className="block text-gray-700">City</label>
             <input
               type="text"
               name="city"
               value={shippingInfo.city}
               onChange={handleShippingChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border bg-violet-50 rounded-lg focus:ring-2 focus:ring-indigo-500"
               placeholder="Enter your city"
               required
             />
           </div>
-          <div className="mb-4">
-            <label className="block">Postal Code</label>
+          <div className="mb-6">
+            <label className="block text-gray-700">Postal Code</label>
             <input
               type="text"
               name="postalCode"
               value={shippingInfo.postalCode}
               onChange={handleShippingChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border bg-violet-50 rounded-lg focus:ring-2 focus:ring-indigo-500"
               placeholder="Enter postal code"
               required
             />
           </div>
-          <div className="mb-4">
-            <label className="block">Phone</label>
+          <div className="mb-6">
+            <label className="block text-gray-700">Phone</label>
             <input
               type="text"
               name="phone"
               value={shippingInfo.phone}
               onChange={handleShippingChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border bg-violet-50 rounded-lg focus:ring-2 focus:ring-indigo-500"
               placeholder="Enter your phone number"
               required
             />
@@ -152,23 +152,23 @@ const SingleProductOrder = () => {
         </form>
       </div>
 
-      {/* Résumé de la commande */}
-      <div className="mt-6">
-        <h3 className="text-xl font-semibold">Order Summary</h3>
-        <p className="text-gray-600">Total Price: ${totalPrice.toFixed(2)}</p>
+      {/* Order Summary */}
+      <div className="mt-8">
+        <h3 className="text-xl font-semibold text-gray-900 mb-4">Order Summary</h3>
+        <p className="text-gray-600">Total Price: {totalPrice.toFixed(2)} DH</p>
       </div>
 
-      {/* Boutons d'action */}
-      <div className="flex justify-between mt-6">
+      {/* Action Buttons */}
+      <div className="flex justify-between gap-4 mt-8">
         <button
           onClick={() => navigate("/cart")}
-          className="bg-gray-500 text-white py-2 px-4 rounded"
+          className="bg-gray-500 text-white py-2 px-6 rounded-lg hover:bg-gray-600 transition"
         >
           Back to Cart
         </button>
         <button
           onClick={handleConfirmOrder}
-          className="bg-indigo-500 text-white py-2 px-4 rounded"
+          className="bg-indigo-500 text-white py-2 px-6 rounded-lg hover:bg-indigo-600 transition disabled:opacity-50"
           disabled={isLoading}
         >
           {isLoading ? "Processing..." : "Confirm Order"}
@@ -178,4 +178,4 @@ const SingleProductOrder = () => {
   );
 };
 
-export default SingleProductOrder;
+export default CartItem;
