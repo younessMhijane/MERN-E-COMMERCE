@@ -3,6 +3,7 @@ import HomePic from '../asserts/HomePic.png'
 import { Link } from 'react-router-dom'
 import { FaArrowRight } from 'react-icons/fa';
 import Footer from '../components/Footer';
+import TopProducts from '../components/TopProducts';
 export default function PageHome() {
 
   return (
@@ -49,6 +50,7 @@ export default function PageHome() {
     </div>
   </div>
 
+    <TopProducts/>
   <Footer/>
     </>
 

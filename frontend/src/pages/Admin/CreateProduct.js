@@ -11,6 +11,7 @@ const ProductList = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [priceSale, setPriceSale] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
   const navigate = useNavigate();
 
@@ -26,6 +27,7 @@ const ProductList = () => {
       productData.append("name", name);
       productData.append("description", description);
       productData.append("price", price);
+      productData.append("priceSale", priceSale);
 
       const { data } = await createProduct(productData);
 
@@ -95,6 +97,23 @@ const ProductList = () => {
                 className="w-full p-3 bg-violet-50 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
+                placeholder="Enter product price"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="price"
+                className="block text-gray-700 font-medium mb-2"
+              >
+                PriceSale (optional)
+              </label>
+              <input
+                id="price"
+                type="number"
+                min="0" step="0.01"
+                className="w-full p-3 bg-violet-50 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                value={priceSale}
+                onChange={(e) => setPriceSale(e.target.value)}
                 placeholder="Enter product price"
               />
             </div>

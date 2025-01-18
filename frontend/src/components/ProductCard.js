@@ -68,7 +68,15 @@ const ProductCart = () => {
               {product.description}
             </p>
             <p className="text-2xl font-semibold text-green-600 mb-4">
-              Price: {product.price.toFixed(2)} DH
+              Price:
+              {product?.priceSale && product?.priceSale > 0 ? (
+                    <>
+                      <span className="mx-2">{product?.priceSale?.toFixed(2)} DH</span>
+                      <span className="text-red-500 line-through">{product?.price?.toFixed(2)} DH</span>
+                    </>
+                  ) : (
+                    `${product?.price?.toFixed(2)} DH`
+                  )}
             </p>
 
             <div className="flex items-center gap-4 mt-6">

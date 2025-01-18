@@ -76,7 +76,17 @@ const Cart = () => {
                 <div className="flex-1 ml-4">
                   <h3 className="font-semibold text-gray-800">{item.name}</h3>
                   <p className="text-gray-600">
-                    Price: <span className="font-medium text-indigo-600">{item.price} DH</span>
+                    Price: 
+                    <span className="font-medium text-indigo-600">
+                      {item?.priceSale && item?.priceSale > 0 ? (
+                        <>
+                          <span className="ml-1 text-red-500 line-through">{item?.price?.toFixed(2)} DH</span>
+                          <span className="ml-2">{item?.priceSale?.toFixed(2)} DH</span>
+                        </>
+                      ) : (
+                        `${item?.price?.toFixed(2)} DH`
+                      )}
+                    </span>
                   </p>
                   <p className="text-gray-600">
                     Quantity: <span className="font-medium">{item.qty}</span>

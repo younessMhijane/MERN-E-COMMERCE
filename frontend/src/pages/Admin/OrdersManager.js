@@ -99,9 +99,7 @@ const OrdersManager = () => {
                   className="border p-1 rounded"
                 >
                   <option value="Pending">Pending</option>
-                  <option value="Processing">Processing</option>
-                  <option value="Shipped">Shipped</option>
-                  <option value="Delivered">Delivered</option>
+                  <option value="Completed">Completed</option>
                   <option value="Cancelled">Cancelled</option>
                 </select>
               </td>

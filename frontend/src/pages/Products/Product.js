@@ -4,9 +4,10 @@ import { FaCartPlus } from "react-icons/fa";
 import Loading from "../../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../Redux/features/cart/cartSlice";
-import { toast,ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import moment from "moment";
 import { Link } from "react-router-dom";
+
 const Product = () => {
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const Product = () => {
 
   return (
     <div className="p-5 md:p-10">
-      <ToastContainer/>
+      <ToastContainer />
       <h2 className="text-2xl md:pb-5 font-semibold text-indigo-700">All Products</h2>
       <div className="container mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
@@ -49,12 +50,13 @@ const Product = () => {
             onMouseLeave={() => setHoveredProduct(null)}
           >
             <div className="relative overflow-hidden rounded-md">
-              <Link  to={`/products/${product._id}`}>
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full hover:cursor-pointer h-80 object-cover transform transition-transform duration-300 group-hover:scale-110"
-              /></Link>
+              <Link to={`/products/${product._id}`}>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full hover:cursor-pointer h-80 object-cover transform transition-transform duration-300 group-hover:scale-110"
+                />
+              </Link>
               <button
                 onClick={() => addToCartHandler(product)}
                 className="absolute top-2 right-2 bg-indigo-500 text-white p-2 rounded-full shadow-md transform transition-transform duration-300 hover:scale-110 hover:shadow-lg"
@@ -76,7 +78,14 @@ const Product = () => {
               </p>
               <div className="flex justify-between items-center mt-4">
                 <span className="text-indigo-600 font-bold">
-                  {product?.price?.toFixed(2) || "0.00"} DH
+                  {product?.priceSale && product?.priceSale > 0 ? (
+                    <>
+                      <span className="text-red-500 line-through">{product?.price?.toFixed(2)} DH</span>
+                      <span className="ml-2">{product?.priceSale?.toFixed(2)} DH</span>
+                    </>
+                  ) : (
+                    `${product?.price?.toFixed(2)} DH`
+                  )}
                 </span>
               </div>
             </div>

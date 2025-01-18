@@ -95,7 +95,14 @@ const AllProducts = () => {
                   </svg>
                 </Link>
                 <p className="text-lg font-semibold text-gray-800">
-                  {product?.price?.toFixed(2) || "0.00"} DH
+                  {product?.priceSale && product?.priceSale > 0 ? (
+                    <>
+                      <span className="text-red-500 line-through">{product?.price?.toFixed(2)} DH</span>
+                      <span className="ml-2">{product?.priceSale?.toFixed(2) || "0.00"} DH</span>
+                    </>
+                  ) : (
+                    `${product?.price?.toFixed(2)} DH`
+                  )}
                 </p>
               </div>
             </div>

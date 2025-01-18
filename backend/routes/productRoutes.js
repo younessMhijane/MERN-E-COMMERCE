@@ -7,6 +7,7 @@ import {
     getProductById,
     removeProduct,
     updateProduct,
+    getTopPurchasedProducts,
   } from "../controllers/productController.js";
 const router = express.Router()
 
@@ -19,5 +20,9 @@ router
   .get(getProductById)
   .put(authenticate, authorizeAdmin, formidable(), updateProduct)
   .delete(authenticate, authorizeAdmin, removeProduct);
+router
+  .route("/top-products/status")
+  .get(getTopPurchasedProducts);
+
   
 export default router;

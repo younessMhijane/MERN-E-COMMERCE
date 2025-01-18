@@ -2,6 +2,7 @@ import asyncHandler from "../middlewares/asyncHandler.js";
 import Product from "../models/product.js";
 import fs from "fs";
 import path from "path";
+import Order from "../models/Cart.js";
 
 const addProduct = asyncHandler(async(req,res)=>{
     try{
@@ -11,7 +12,6 @@ const addProduct = asyncHandler(async(req,res)=>{
          if(!description) return res.json({ error: "description is required" });
          const product = new Product({...req.fields});
          await product.save()
-
          res.json(product);
     }catch(error){
         console.error(error);
@@ -90,33 +90,97 @@ const removeProduct = asyncHandler(async (req, res) => {
   }
 });
 const updateProduct = asyncHandler(async (req, res) => {
+  try {
+    // Extraction des données du corps de la requête
+    const { name, price, priceSale, description } = req.fields;
+    const { image } = req.files; // Pour gérer l'image si elle est incluse
+
+    // Validation des champs obligatoires
+    if (!name) return res.status(400).json({ error: "Product name is required" });
+    if (!price) return res.status(400).json({ error: "Product price is required" });
+    if (!description) return res.status(400).json({ error: "Product description is required" });
+
+    // Vérifier si priceSale est fourni et valide (si non, le mettre à null ou à un autre valeur par défaut)
+    const priceSaleValue = priceSale ? priceSale : null; 
+
+    // Recherche du produit par ID
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ error: "Product not found" });
+
+    // Mise à jour des informations du produit
+    product.name = name;
+    product.price = price;
+    product.priceSale = priceSaleValue; // Mise à jour du prix promotionnel
+    product.description = description;
+
+    // Si une nouvelle image est incluse, mise à jour de l'image du produit
+    if (image) {
+      product.image = image[0].path; // Assurez-vous d'utiliser le chemin correct selon votre configuration de stockage
+    }
+
+    // Sauvegarde du produit avec les nouvelles informations
+    await product.save();
+
+    // Réponse de succès
+    res.status(200).json({
+      message: "Product updated successfully",
+      product,
+    });
+  } catch (error) {
+    // Gestion des erreurs
+    console.error(error);
+    res.status(500).json({
+      error: error.message || "An error occurred while updating the product",
+    });
+  }
+});
+
+
+
+  const getTopPurchasedProducts = asyncHandler(async (req, res) => {
     try {
-      const { name, price, description } = req.fields;
+      // Étape 1 : Agréger les produits les plus achetés
+      const productsStats = await Order.aggregate([
+        { $match: { status: "Completed" } }, 
+        { $unwind: "$orderItems" },
+        {
+          $group: {
+            _id: { $toObjectId: "$orderItems.product" },
+            totalQuantity: { $sum: "$orderItems.qty" },
+          },
+        },
+        { $sort: { totalQuantity: -1 } },
+        { $limit: 10 },
+      ]);
+    
+      const topProducts = await Product.find({
+        _id: { $in: productsStats.map((stat) => stat._id) },
+      }).lean();
   
-      if (!name) return res.status(400).json({ error: "Name is required" });
-      if (!price) return res.status(400).json({ error: "Price is required" });
-      if (!description) return res.status(400).json({ error: "Description is required" });
+      const result = productsStats.map((stat) => {
+        const product = topProducts.find(
+          (prod) => prod._id.toString() === stat._id.toString()
+        );
+        return {
+          ...product,
+          totalQuantity: stat.totalQuantity,
+        };
+      });
   
-      const product = await Product.findById(req.params.id);
-      if (!product) return res.status(404).json({ error: "Product not found" });
-  
-      product.name = name;
-      product.price = price;
-      product.description = description;
-  
-  
-      await product.save();
-      res.json(product);
+      res.status(200).json(result);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: error.message });
+      console.error("Error fetching top products:", error);
+      res.status(500).json({ error: "Server Error" });
     }
   });
+  
+
   
 export {
     addProduct,
     getAllProducts,
     getProductById,
     removeProduct,
-    updateProduct
+    updateProduct,
+    getTopPurchasedProducts
   };
