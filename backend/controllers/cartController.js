@@ -48,10 +48,15 @@ const createOrder = async (req, res) => {
         throw new Error(`Product not found: ${itemFromClient._id}`);
       }
 
+      // Utiliser priceSale s'il est défini et valide, sinon utiliser le prix normal
+      const priceToUse = matchingItemFromDB.priceSale && matchingItemFromDB.priceSale > 0 
+        ? matchingItemFromDB.priceSale 
+        : matchingItemFromDB.price;
+
       return {
         ...itemFromClient,
         product: itemFromClient._id,
-        price: matchingItemFromDB.price,
+        price: priceToUse, // Met à jour le prix avec priceSale si disponible
         _id: undefined, // Supprime l'ID pour éviter les conflits
       };
     });
@@ -78,6 +83,7 @@ const createOrder = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 
 const getAllOrders = async (req, res) => {
