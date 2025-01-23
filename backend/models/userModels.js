@@ -11,6 +11,8 @@ const userSchema = mongoose.Schema(
     },
     password: { type: String, required: true },
     isAdmin: { type: Boolean, default: false ,required:true }, // Par défaut, le rôle est "user"
+    resetCode: { type: String }, // Code temporaire pour la réinitialisation
+    resetCodeExpires: { type: Date }, // Expiration du code
   },
   {
     timestamps: true, // Ajoute createdAt et updatedAt automatiquement

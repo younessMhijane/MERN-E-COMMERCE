@@ -5,6 +5,7 @@ import { useRegisterMutation } from "../../Redux/api/usersApiSlice";
 import { setCredentials } from "../../Redux/features/auth/authSlice";
 import { toast,ToastContainer } from "react-toastify";
 import logo from "../../asserts/logo.png";
+import { motion } from "framer-motion";
 
 export default function PageRegister() {
   const [username, setUsername] = useState("");
@@ -47,7 +48,14 @@ export default function PageRegister() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-6 py-12">
+    <div className=" bg-gray-50">
+      <motion.div
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 100 }}
+      transition={{ duration: 0.5 }}
+    >
+    <div className="flex min-h-screen items-center justify-center px-6 py-12">
       <ToastContainer/>
       <div className="w-full max-w-md space-y-6 bg-white shadow-lg rounded-lg p-6">
         {/* Logo and Heading */}
@@ -155,6 +163,8 @@ export default function PageRegister() {
           </Link>
         </p>
       </div>
+      </div>
+    </motion.div>
     </div>
   );
 }

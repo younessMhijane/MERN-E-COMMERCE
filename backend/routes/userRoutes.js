@@ -9,7 +9,9 @@ import {
   deleteUserById,
   getUserById,
   updateUserById,
-  
+  forgotPassword,
+  verifyResetCode,
+  sendUsMessage,
 } from "../controllers/userController.js";
 
 import { authenticate, authorizeAdmin } from "../middlewares/authMiddleware.js";
@@ -23,6 +25,9 @@ router
 
 router.post("/auth", loginUser);
 router.post("/logout", logoutUser);
+router.post("/forgot-password", forgotPassword);
+router.post("/verify-reset-code", verifyResetCode);
+router.post("/send-us-message", sendUsMessage);
 
 router
   .route("/profile")

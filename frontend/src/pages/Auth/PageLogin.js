@@ -3,8 +3,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../../Redux/api/usersApiSlice";
 import { setCredentials } from "../../Redux/features/auth/authSlice";
-import { toast,ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import logo from "../../asserts/logo.png";
+import { motion } from "framer-motion";
 
 export default function PageLogin() {
   const [email, setEmail] = useState("");
@@ -38,16 +39,19 @@ export default function PageLogin() {
   }, [navigate, redirect, userInfo]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-6 py-12">
-      <ToastContainer/>
+    <div className="bg-gray-50">
+      <motion.div
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: 100 }}
+      transition={{ duration: 0.5 }}
+    >
+    <div className="flex min-h-screen items-center justify-center px-6 py-12">
+      <ToastContainer />
       <div className="w-full max-w-md space-y-6 bg-white shadow-lg rounded-lg p-6">
         {/* Logo and Heading */}
         <div className="text-center">
-          <img
-            src={logo}
-            alt="LaReine"
-            className="mx-auto h-20 w-auto"
-          />
+          <img src={logo} alt="LaReine" className="mx-auto h-20 w-auto" />
           <h2 className="mt-6 text-2xl font-bold text-gray-900">
             Sign in to your account
           </h2>
@@ -79,9 +83,12 @@ export default function PageLogin() {
                 Password
               </label>
               <div className="text-sm flex gap-2">
-                <a href="/#" className="text-indigo-600 hover:text-indigo-500">
+                <Link
+                  to="/forgot-password"
+                  className="text-indigo-600 hover:text-indigo-500"
+                >
                   Forgot password?
-                </a>
+                </Link>
                 <span>or</span>
                 <Link to="/register" className="text-indigo-600 hover:text-indigo-500">
                   Create Account
@@ -111,19 +118,9 @@ export default function PageLogin() {
             </button>
           </div>
         </form>
-
-        
-        {/* <p className="text-sm text-center text-gray-500">
-          By signing in, you agree to our{" "}
-          <Link to="/terms" className="text-indigo-600 hover:underline">
-            Terms of Service
-          </Link>{" "}
-          and{" "}
-          <Link to="/privacy" className="text-indigo-600 hover:underline">
-            Privacy Policy
-          </Link>.
-        </p> */}
       </div>
+      </div>
+    </motion.div>
     </div>
   );
 }

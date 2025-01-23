@@ -12,6 +12,8 @@ import Contact from "./pages/Contact";
 import PageNotFound from "./pages/PageNotFound.js";
 import Login from "./pages/Auth/PageLogin.js";
 import Register from "./pages/Auth/PageRegister.js";
+import PageForgotPassword from "./pages/Auth/PageForgotPassword.js";
+import VerifyResetCode from "./pages/Auth/VerifyResetCode.js";
 
 import Profile from "./pages/User/Profile.js";
 import PrivateRoute from "./components/PrivateRoute";
@@ -33,6 +35,8 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<PageForgotPassword />} />
+      <Route path="/verify-code" element={<VerifyResetCode />} />
       <Route index={true} path="/" element={<Home />} />
       <Route path="/Contact" element={<Contact />} />
       <Route path="" element={<PrivateRoute />}>
