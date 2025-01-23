@@ -88,7 +88,8 @@ const createOrder = async (req, res) => {
 
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find({}).populate("user", "id username");
+    const { sort = '-createdAt' } = req.query;
+    const orders = await Order.find({}).populate("user", "id username").sort(sort);
     res.json(orders);
   } catch (error) {
     res.status(500).json({ error: error.message });

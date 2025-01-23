@@ -3,6 +3,7 @@ import { setupListeners } from "@reduxjs/toolkit/query/react";
 import { apiSlice } from "./api/apiSlice";
 import authReducer from "./features/auth/authSlice";
 import cartReducer from "./features/cart/cartSlice";
+import searchReducer from "./features/search/searchSlice";
 
 
 const store = configureStore({
@@ -10,6 +11,7 @@ const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authReducer,
     cart: cartReducer,
+    search: searchReducer,
   },
 
 

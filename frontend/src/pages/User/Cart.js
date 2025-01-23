@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import { useAllProductsQuery } from "../../Redux/api/productApiSlice";
 import Loading from "../../components/Loading";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -24,6 +26,9 @@ const Cart = () => {
     }
   }, [products, cartItems, isLoading, isError, dispatch]);
 
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
   };
@@ -33,7 +38,7 @@ const Cart = () => {
   };
 
   const calculateTotalPrice = () => {
-    return cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
+    return cartItems.reduce((acc, item) => acc + (item.priceSale || item.price) * item.qty, 0);
   };
 
   if (isLoading) {
@@ -62,7 +67,7 @@ const Cart = () => {
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-semibold text-indigo-700">Shopping Cart</h2>
           </div>
-          <div className="space-y-4">
+          <div data-aos="fade-down" className="space-y-4">
             {cartItems.map((item) => (
               <div
                 key={item._id}
@@ -110,7 +115,7 @@ const Cart = () => {
             ))}
           </div>
 
-          <div className="flex flex-col sm:flex-row justify-between items-center mt-6 bg-indigo-50 p-4 rounded-lg shadow-md">
+          <div data-aos="fade-down" className="flex flex-col sm:flex-row justify-between items-center mt-6 bg-indigo-50 p-4 rounded-lg shadow-md">
             <h3 className="text-lg font-semibold text-indigo-700">
               Total: <span className="text-indigo-800">{calculateTotalPrice()} DH</span>
             </h3>

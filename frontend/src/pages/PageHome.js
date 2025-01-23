@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import HomePic from '../asserts/HomePic.png'
 import { Link } from 'react-router-dom'
 import { FaArrowRight } from 'react-icons/fa';
 import Footer from '../components/Footer';
 import TopProducts from '../components/TopProducts';
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 export default function PageHome() {
+
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
 
   return (
     <>
@@ -49,8 +57,9 @@ export default function PageHome() {
       </div>
     </div>
   </div>
-
-    <TopProducts/>
+    <div data-aos="fade-up">
+      <TopProducts/>
+    </div>
   <Footer/>
     </>
 

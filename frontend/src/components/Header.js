@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "../Redux/features/auth/authSlice";
 import { useLogoutMutation } from "../Redux/api/usersApiSlice";
 import { selectCartCount } from '../Redux/features/cart/cartSlice';
+import { setSearchQuery } from "../Redux/features/search/searchSlice";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { FaRegUser, FaShoppingCart } from "react-icons/fa";
+import { FaRegUser, FaSearch, FaShoppingCart } from "react-icons/fa";
 import { MdLogin } from "react-icons/md";
 import { IoCreateSharp } from "react-icons/io5";
 
@@ -26,9 +27,11 @@ export default function Header() {
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
-
   const [logoutApiCall] = useLogoutMutation();
-
+  
+  const handleSearchChange = (e) => {
+    dispatch(setSearchQuery(e.target.value));  // Mettre à jour la recherche dans Redux
+  };
   const logoutHandler = async () => {
     try {
       await logoutApiCall().unwrap();
@@ -65,11 +68,13 @@ export default function Header() {
           )}
         </nav>
 
-        <div>
+        <div className="flex items-center border border-gray-300 rounded-full bg-violet-200">
+          <FaSearch className="h-5 w-5 mx-2 text-gray-600" />  {/* Icône de recherche */}
           <input
             type="text"
-            placeholder="Search Product"
-            className="p-1 text-center border border-gray-300 rounded-full bg-violet-200"
+            placeholder="Search Product..."
+            onChange={handleSearchChange}
+            className="p-2 text-center bg-transparent outline-none w-full"
           />
         </div>
         {userInfo && (
