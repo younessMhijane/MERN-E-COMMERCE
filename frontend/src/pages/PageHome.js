@@ -17,7 +17,6 @@ export default function PageHome() {
 
   const { data: products } = useAllProductsQuery();
 
-  // Limite l'affichage à 5 produits
   const limitedProducts = products?.slice(0, 4);
 
   return (
