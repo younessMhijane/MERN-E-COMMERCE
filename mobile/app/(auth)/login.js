@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import axios from 'axios';
 import { API_URL } from '@env';
+import logo from '../../assets/images/logo.png';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -33,6 +34,7 @@ const Login = () => {
 
   return (
     <View className="flex-1 justify-center px-4">
+      <Image source={logo} className='h-32 w-32 rounded-full mx-auto' />
       <Text className="text-2xl font-bold mb-8 text-center">Connexion</Text>
       <TextInput
         className="border border-gray-400 rounded-lg mb-4 p-2"
