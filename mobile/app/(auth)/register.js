@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router'; // ✅ Import du router
+import { useRouter } from 'expo-router';
 
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter(); // ✅ Utilisation de useRouter
+  const router = useRouter();
 
   const handleRegister = () => {
     if (!email || !password) {
@@ -14,7 +14,7 @@ const Register = () => {
     }
 
     Alert.alert('Succès', 'Inscription réussie !');
-    router.push('/login'); // ✅ Naviguer vers l'écran de connexion
+    router.push('/login');
   };
 
   return (

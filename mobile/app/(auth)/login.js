@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import axios from 'axios';
+import { API_URL } from '@env';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -15,10 +16,11 @@ const Login = () => {
     }
   
     try {
-      const response = await axios.post('http://192.168.11.103:5000/api/users/auth', {
-        email: email,
-        password: password,
-      });
+        const response = await axios.post(`${API_URL}/api/users/auth`, {
+          email: email,
+          password: password,
+        });
+        
         Alert.alert('Succès', 'Connexion réussie !');
         router.push('/home');
 
