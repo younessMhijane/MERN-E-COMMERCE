@@ -67,7 +67,9 @@ export default function PageHome() {
         <TopProducts />
       </div>
       <div>
-        <h2 data-aos="fade-up" className="text-2xl md:pb-5 font-semibold text-indigo-700 text-center mb-8">Top Products</h2>
+        <h2 data-aos="fade-up" className="text-2xl md:pb-5 font-semibold text-indigo-700 text-center mb-8">
+          All Products
+        </h2>
         <div data-aos="fade-up" className='container mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
           {limitedProducts?.map((product) => (
             <div key={product._id} data-aos="fade-up">

@@ -1,8 +1,11 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { Provider } from 'react-redux';
+import store from "../Redux/store";
 
 export default function TabsLayout() {
   return (
+    <Provider store={store}>
     <Tabs
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
@@ -29,5 +32,6 @@ export default function TabsLayout() {
       <Tabs.Screen name="product" options={{ title: 'Produits' }} />
       <Tabs.Screen name="profile" options={{ title: 'Profil' }} />
     </Tabs>
+    </Provider>
   );
 }
