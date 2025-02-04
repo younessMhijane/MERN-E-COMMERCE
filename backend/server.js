@@ -29,12 +29,11 @@ app.use("/uploads", express.static(path.join(__dirname + "/uploads")));
 app.use("/api/orders", orderRoutes);
 
 mongoose.connect(mongoDBURL)
-  .then(() => {
-    console.log("✅ Connected to MongoDB");
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${PORT}`);
+.then(()=>{
+    console.log("App connected to database");
+    app.listen(PORT,()=>{
+        console.log(`App is listening to port: ${PORT}`);
     });
-  })
-  .catch((err) => {
-    console.error("❌ MongoDB connection error:", err);
-  });
+}).catch((err)=>{
+    console.log(err);
+})
